@@ -18,15 +18,22 @@ List* findElem(float a, List* head); // Найти элемент в списк�
 void make(float a, List*& end, List*& head); //  Добавление нового элемента Q
 void print(List* head);  // Печать всего списка Q
 int findMax(List* head); // Поиск максимального элемента с возвратом его номера
+void Insertion(float a, List* head, int index); // добавлений элемента
+void Delete(List* head, int index);
 
 int main()
 { // ВСЕ РАБОТАЕТ
+    setlocale(LC_ALL, "Russian");
     List* head = NULL;
     List* end = NULL; // ВАПРОС: если я эту переменную глобальной делаю, то "end не является однозначным", а если в main -- то все в порядке, почему?
     for (int i = 0; i < 100; i++)
     {
         make(i * 1.0, end, head);
     } // for i
+    print(head);
+    Insertion(125, head, 50);
+    Delete(head, 51);
+    print(head);
     int res = findMax(head); // Индекс максимального элемента
     if (res >= 0) cout << "Индекс максимального элемента = " << res << endl;
     else cout << "Максимальный элемент не найден" << endl;
@@ -84,4 +91,24 @@ int findMax(List* head)
     } // while
     cout << "Наибольшее значение = " << maxFound << endl;
     return counter;
+}
+void Insertion(float a, List* head, int index) {
+    List* elem = new List;
+    elem->data = a;
+    List* ptr = head;
+    for (int i = 0; i < index-1; i++) {
+        ptr = ptr -> next;
+    }
+    elem->next = ptr->next;
+    ptr->next = elem;
+}
+
+void Delete(List* head, int index) {
+    List* ptr = head;
+    for (int i = 0; i < index -1; i++) {
+        ptr = ptr->next;
+    }
+    List* ptr2 = ptr -> next;
+    ptr->next = ptr->next->next;
+    delete ptr2;
 }
