@@ -19,4 +19,11 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="incorr1.txt" />
+    <Text Include="incorr2.txt" />
+    <Text Include="incorr3.txt" />
+    <Text Include="corr1.txt" />
+    <Text Include="corr2.txt" />
+  </ItemGroup>
 </Project>
