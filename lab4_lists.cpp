@@ -1,24 +1,31 @@
-﻿// lab4_lists.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿/***********************************************************************************
+*                         Программирование                                         *
+************************************************************************************
+*Project type :Win64 Console Application                                           *
+*Project name :lab_sorting.sln                                                     *
+*File name    :lab_sorting.cpp                                                     *
+*Language     :CPP, MSVS 2022                                                      *
+*Programmers  :Кожевников Артем Вадимович, Томчук Дмитрий Максимович,  М3О-209Б-22 *
+*Modified By  :                                                                    *
+*Created      :14.11.2023                                                          *
+*Last revision:16.11.2023                                                          *
+*Comment      :                                                                    *
+***********************************************************************************/
+
 
 #include <iostream>
 #include <fstream>
 using namespace std;
 
-// Файлы тестов
-//const char* fileName = "corr1.txt";
-const char* fileName = "corr2.txt";
-//const char* fileName = "incorr1.txt";
-//const char* fileName = "incorr2.txt";
-//const char* fileName = "incorr3.txt";
-
-// Списоk'
+// С Т Р У К Т У Р Ы
 struct List {
     float data = NULL;
     List* next = NULL;
-};
+}; // Структура списка
 
-// Функции для списка
+/*********************************************************************
+ *              П Р О Т О Т И П Ы    Ф У Н К Ц И Й                   *
+ *********************************************************************/
 int create(List*& head, List*& end, const char* fileName); // Создание списка
 void make(float a, List*& end, List*& head); //  Добавление нового элемента
 void print(List* head);  // Печать всего списка
@@ -30,11 +37,27 @@ void Delete(List*& head, int index); // Удаление элемента по �
 int count_size(List* head); // Посчитать длину списка
 void PrintMess(int code); // Сообщение об ошибке
 
-// Переменные
+/*******************************************************************/
+/*           Г Л О Б А Л Ь Н Ы Е   П Е Р Е М Е Н Н Ы Е             */
+/*******************************************************************/
+
+// Файлы тестов
+//const char* fileName = "corr1.txt";
+const char* fileName = "corr2.txt";
+//const char* fileName = "incorr1.txt";
+//const char* fileName = "incorr2.txt";
+//const char* fileName = "incorr3.txt";
+
+
+
 int ErrCode = 0; // Код ошибки
 int size; // Длина списка
 float reqdata; int reqIdx; // Новый элемент списка и его индекс в списке, запрашиваемые у пользователя
 int reqIdx2; // Индекс элемента на удаление
+
+/*********************************************************************
+ *              Г Л А В Н А Я   П Р О Г Р А М М А                    *
+ *********************************************************************/
 
 int main()
 { 
@@ -83,16 +106,9 @@ int main()
     else PrintMess(ErrCode);
 } // main
 
-int count_size(List* head)
-{
-    int counter = 0;
-    while (head)
-    {
-        counter++;
-        head = head->next;
-    } // while
-    return counter;
-} // counter_size
+/***********************************************************************
+ *                Р Е А Л И З А Ц И Я    Ф У Н К Ц И Й                 *
+ ***********************************************************************/
 
 int create(List*& head, List*& end, const char* fileName)
 {
@@ -114,7 +130,7 @@ int create(List*& head, List*& end, const char* fileName)
     } // while
     fin.close();
     return 0; // все ок
-}
+} // create
 
 void make(float a, List*& end, List*& head) //  Добавление нового элемента
 {   
@@ -127,7 +143,7 @@ void make(float a, List*& end, List*& head) //  Добавление новог�
         end = ptr; // Делаем этот элемент последним
         ptr->next = NULL; // Следующих элементов списка нет
     } // if
-    else cout << "Элемент a = " << a << " уже содержится в списке!" << endl; // ?
+    else cout << "Элемент a = " << a << " уже содержится в списке!" << endl;
 } // make
 
 List* findElem(float a, List* head) // Найти элемент в списке
@@ -139,7 +155,7 @@ List* findElem(float a, List* head) // Найти элемент в списке
         ptr = ptr->next;
     }
     return nullptr;
-}
+} // findElem
 
 void print(List* head)  // Печать всего списка
 {
@@ -151,9 +167,20 @@ void print(List* head)  // Печать всего списка
         ptr = ptr->next; // Переход к следующему
     }
     cout << endl;
-}
+} // print
 
-int findMax(List* head)
+int count_size(List* head) // Посчитать размер списка
+{
+    int counter = 0;
+    while (head)
+    {
+        counter++;
+        head = head->next;
+    } // while
+    return counter;
+} // counter_size
+
+int findMax(List* head) // Поиск максимального
 {
     List* ptr = head;
     int counter = -1; // Индекс
@@ -169,8 +196,9 @@ int findMax(List* head)
     } // while
     cout << "Наибольшее значение = " << maxFound << endl;
     return counter;
-}
-void Insertion(float a, List* head, int index) {
+} // findMax
+
+void Insertion(float a, List* head, int index) { // Вставка элемента в список на указанное место
     List* elem = new List;
     elem->data = a;
     List* ptr = head;
@@ -179,13 +207,13 @@ void Insertion(float a, List* head, int index) {
     }
     elem->next = ptr->next;
     ptr->next = elem;
-}
+} // Insertion
 
-void Delete(List*& head, int index) {
+void Delete(List*& head, int index) { // Удаление элемента по индексу
     List* ptr = head;
     for (int i = 0; i < index -1; i++) {
         ptr = ptr->next;
-    }
+    } // for i
     if (ptr != head)
     {
         List* ptr2 = ptr->next;
@@ -195,10 +223,10 @@ void Delete(List*& head, int index) {
     else {
         head = ptr->next;
         delete ptr;
-    }
-}
+    } // else
+} // Delete
 
-void delList(List*& head)
+void delList(List*& head) // Удаление всего списка
 {
     List* ptr;
     while (head) // Удаление, начинающееся с "головы"
@@ -210,11 +238,11 @@ void delList(List*& head)
     head = NULL;
 } // delList
 
-void PrintMess(int code)
+void PrintMess(int code) // Печать сообщения об ошибке
 {
     switch (code) 
     {
         case 1: cout << "Файл пуст" << endl; break;
         case 2: cout << "В файле не цифра" << endl; break;
-    }
-}
+    } // switch
+} // PrintMess
