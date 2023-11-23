@@ -25,5 +25,6 @@
     <Text Include="incorr3.txt" />
     <Text Include="corr1.txt" />
     <Text Include="corr2.txt" />
+    <Text Include="corr3.txt" />
   </ItemGroup>
 </Project>

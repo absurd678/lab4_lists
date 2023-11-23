@@ -32,7 +32,7 @@ void print(List* head);  // Печать всего списка
 void delList(List*& head); // Удаление списка
 List* findElem(float a, List* head); // Найти элемент в списке
 int findMax(List* head); // Поиск максимального элемента с возвратом его номера
-void Insertion(float a, List* head, int index); // добавлений элемента
+void Insertion(float a, List*& head, int index); // добавлений элемента
 void Delete(List*& head, int index); // Удаление элемента по его индексу
 int count_size(List* head); // Посчитать длину списка
 void PrintMess(int code); // Сообщение об ошибке
@@ -43,7 +43,8 @@ void PrintMess(int code); // Сообщение об ошибке
 
 // Файлы тестов
 //const char* fileName = "corr1.txt";
-const char* fileName = "corr2.txt";
+//const char* fileName = "corr2.txt";
+const char* fileName = "corr3.txt";
 //const char* fileName = "incorr1.txt";
 //const char* fileName = "incorr2.txt";
 //const char* fileName = "incorr3.txt";
@@ -98,7 +99,13 @@ int main()
         // Поиск максимального элемента
         int res = findMax(head); // Индекс максимального элемента
         cout << "Индекс максимального элемента = " << res << endl;
- 
+        // Удаление максимального элемента
+        Delete(head, res);
+        print(head);
+        //  Вставка числа в начало
+        cout << "Введите число: "; cin >> reqdata;
+        Insertion(reqdata, head, 0);
+        print(head);
         // Удаление списка
         delList(head);
         print(head);
@@ -198,15 +205,25 @@ int findMax(List* head) // Поиск максимального
     return counter;
 } // findMax
 
-void Insertion(float a, List* head, int index) { // Вставка элемента в список на указанное место
+void Insertion(float a, List*& head, int index) { // Вставка элемента в список на указанное место
+    
+    List* ptr = head;
     List* elem = new List;
     elem->data = a;
-    List* ptr = head;
     for (int i = 0; i < index-1; i++) {
         ptr = ptr -> next;
     }
-    elem->next = ptr->next;
-    ptr->next = elem;
+    if (index == 0)
+    {
+        elem->next = ptr;
+        head = elem;
+    }
+    else
+    { 
+        elem->next = ptr->next;
+        ptr->next = elem;
+    }
+    
 } // Insertion
 
 void Delete(List*& head, int index) { // Удаление элемента по индексу
@@ -214,15 +231,15 @@ void Delete(List*& head, int index) { // Удаление элемента по 
     for (int i = 0; i < index -1; i++) {
         ptr = ptr->next;
     } // for i
-    if (ptr != head)
+    if (index == 0) {
+        head = ptr->next;
+        delete ptr;
+    } // if
+    else 
     {
         List* ptr2 = ptr->next;
         ptr->next = ptr->next->next;
         delete ptr2;
-    } // if
-    else {
-        head = ptr->next;
-        delete ptr;
     } // else
 } // Delete
 
